@@ -8,6 +8,7 @@ const AdyenHelper = require('*/cartridge/scripts/util/adyenHelper');
 function adyen3d(req, res, next) {
   const { IssuerURL } = req.querystring;
   const { PaRequest } = req.querystring;
+  const { TermUrl} = req.querystring;
   const { MD } = req.querystring;
   const { merchantReference } = req.querystring;
   const TermURL = URLUtils.https(
@@ -25,6 +26,7 @@ function adyen3d(req, res, next) {
     res.render('adyenform', {
       issuerUrl: IssuerURL,
       paRequest: PaRequest,
+      termUrl: TermUrl,
       md: MD,
       ContinueURL: TermURL,
     });

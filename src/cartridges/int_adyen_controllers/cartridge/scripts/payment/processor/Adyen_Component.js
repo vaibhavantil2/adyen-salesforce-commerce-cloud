@@ -117,9 +117,9 @@ function Authorize(args) {
     }
 
     // If the response has MD, then it is a 3DS transaction
-    if (result.redirectObject?.data?.MD) {
+    if (result.adyenAction?.data?.MD) {
       Transaction.wrap(() => {
-        paymentInstrument.custom.adyenMD = result.redirectObject.data.MD;
+        paymentInstrument.custom.adyenMD = result.adyenAction.data.MD;
       });
       return {
         authorized3d: true,
@@ -134,9 +134,10 @@ function Authorize(args) {
             '1',
           ),
           Basket: order,
-          issuerUrl: result.redirectObject.url,
-          paRequest: result.redirectObject.data.PaReq,
-          md: result.redirectObject.data.MD,
+          issuerUrl: result.adyenAction.url,
+          paRequest: result.adyenAction.data.PaReq,
+          termUrl: result.adyenAction.data.TermUrl,
+          md: result.adyenAction.data.MD,
         }),
       };
     }
@@ -144,7 +145,7 @@ function Authorize(args) {
     return {
       order,
       paymentInstrument,
-      redirectObject: result.redirectObject,
+      adyenAction: result.adyenAction,
     };
   }
 

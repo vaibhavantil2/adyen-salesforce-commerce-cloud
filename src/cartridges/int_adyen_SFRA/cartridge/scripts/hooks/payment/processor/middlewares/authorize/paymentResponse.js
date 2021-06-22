@@ -12,18 +12,18 @@ function get3DS2Response(result) {
 function getRedirectResponse(result, orderNumber, paymentInstrument) {
   const createHash = (substr) =>
     AdyenHelper.getAdyenHash(
-      result.redirectObject.url.substr(result.redirectObject.url.length - 25),
+      result.adyenAction.url.substr(result.adyenAction.url.length - 25),
       substr,
     );
 
   // Signature for 3DS payments
   const getMDSignature = () =>
-    createHash(result.redirectObject.data.MD.substr(1, 25));
+    createHash(result.adyenAction.data.MD.substr(1, 25));
   // Signature for redirect methods
   const getPaymentDataSignature = () =>
-    createHash(result.paymentData.substr(1, 25));
+    createHash(result.adyenAction.url.slice(-25));
 
-  const hasMD = !!result.redirectObject?.data?.MD;
+  const hasMD = !!result.adyenAction?.data?.MD;
   // If the response has MD, then it is a 3DS transaction
   const signature = hasMD ? getMDSignature() : getPaymentDataSignature();
 
@@ -32,7 +32,7 @@ function getRedirectResponse(result, orderNumber, paymentInstrument) {
     authorized3d: hasMD,
     orderNo: orderNumber,
     paymentInstrument,
-    redirectObject: result.redirectObject,
+    adyenAction: result.adyenAction,
     signature,
   };
 }

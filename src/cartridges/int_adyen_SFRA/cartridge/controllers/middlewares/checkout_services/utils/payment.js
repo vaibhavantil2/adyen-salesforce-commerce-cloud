@@ -28,23 +28,25 @@ function handlePaymentAuthorization(order, { res }, emit) {
       return false;
     }
 
-    if (handlePaymentResult.redirectObject) {
-      // If authorized3d, then redirectObject from credit card, hence it is 3D Secure
+    if (handlePaymentResult.adyenAction) {
+      // If authorized3d, then adyenAction from credit card, hence it is 3D Secure
       if (handlePaymentResult.authorized3d) {
         Transaction.wrap(() => {
           paymentInstrument.custom.adyenMD =
-            handlePaymentResult.redirectObject.data.MD;
+            handlePaymentResult.adyenAction.data.MD;
         });
         res.json({
           error: false,
           continueUrl: URLUtils.url(
             'Adyen-Adyen3D',
             'IssuerURL',
-            handlePaymentResult.redirectObject.url,
+            handlePaymentResult.adyenAction.url,
             'PaRequest',
-            handlePaymentResult.redirectObject.data.PaReq,
+            handlePaymentResult.adyenAction.data.PaReq,
             'MD',
-            handlePaymentResult.redirectObject.data.MD,
+            handlePaymentResult.adyenAction.data.MD,
+            'TermUrl',
+            handlePaymentResult.adyenAction.data.TermUrl,
             'merchantReference',
             handlePaymentResult.orderNo,
             'signature',
@@ -56,7 +58,7 @@ function handlePaymentAuthorization(order, { res }, emit) {
       }
       Transaction.wrap(() => {
         paymentInstrument.custom.adyenRedirectURL =
-          handlePaymentResult.redirectObject.url;
+          handlePaymentResult.adyenAction.url;
       });
       res.json({
         error: false,
