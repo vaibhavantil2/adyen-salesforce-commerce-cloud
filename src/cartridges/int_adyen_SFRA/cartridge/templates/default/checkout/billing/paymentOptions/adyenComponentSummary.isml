@@ -2,7 +2,12 @@
 <isset name="AdyenHelper" value="${require('*/cartridge/scripts/util/adyenHelper')}" scope="pdict"/>
 <script src="${pdict.AdyenHelper.getCheckoutUrl()}" type="text/javascript"></script>
 <link rel="stylesheet" type="text/css" href="${pdict.AdyenHelper.getCheckoutCSS()}"/>
-
+<isscript>
+    var assets = require('*/cartridge/scripts/assets.js');
+    assets.addJs('/js/bundle.js');
+    assets.addCss('/css/adyenCss.css');
+    assets.addCss('/css/adyenCSS.css');
+</isscript>
 <isif condition="${payment.adyenAction != null}">
     <!--- Payment action for Voucher --->
     <div id="voucherResult"></div>

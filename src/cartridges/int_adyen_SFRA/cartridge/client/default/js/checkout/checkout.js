@@ -3,6 +3,7 @@ const billingHelpers = require('base/checkout/billing');
 const summaryHelpers = require('base/checkout/summary');
 const billing = require('./billing');
 const adyenCheckout = require('../adyenCheckout');
+const adyenPlaceOrder = require('../adyenPlaceOrder');
 
 module.exports.updateCheckoutView = function updateCheckoutView() {
   $('body').on('checkout:updateCheckoutView', (e, data) => {

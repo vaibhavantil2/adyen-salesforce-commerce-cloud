@@ -1,8 +1,10 @@
 const Resource = require('dw/web/Resource');
 const URLUtils = require('dw/web/URLUtils');
+const Transaction = require('dw/system/Transaction');
 const COHelpers = require('*/cartridge/scripts/checkout/checkoutHelpers');
 const hooksHelper = require('*/cartridge/scripts/helpers/hooks');
 const addressHelpers = require('*/cartridge/scripts/helpers/addressHelpers');
+const  constants = require('*/cartridge/adyenConstants/constants');
 const { fraudDetection } = require('*/cartridge/scripts/hooks/fraudDetection');
 const { hasAdyenPaymentMethod } = require('../helpers/index');
 const handleTransaction = require('./transaction');
@@ -38,19 +40,19 @@ function createOrder(currentBasket, { res, req, next }, emit) {
   const validateOrderAndAuthorize = (order) => {
     const isValidOrder = validateOrder(order);
     if (isValidOrder) {
-      const isAuthorized = handlePaymentAuthorization(
+      const paymentsResponse = handlePaymentAuthorization(
         order,
         { req, res },
         emit,
       );
-      return isAuthorized;
+      return paymentsResponse;
     }
     return false;
   };
 
   const handleCreateOrder = (order) => {
-    const isAuthorized = validateOrderAndAuthorize(order);
-    if (isAuthorized) {
+    const paymentsResponse = validateOrderAndAuthorize(order);
+    if (paymentsResponse) {
       const fraudDetectionStatus = hooksHelper(
         'app.fraud.detection',
         'fraudDetection',
@@ -64,7 +66,10 @@ function createOrder(currentBasket, { res, req, next }, emit) {
         emit,
       );
       // Places the order
-      return isSuccessful && handlePlaceOrder(order, fraudDetectionStatus);
+      if(isSuccessful) {
+        handlePlaceOrder(order, fraudDetectionStatus)
+      }
+      return paymentsResponse;
     }
     return false;
   };
@@ -105,20 +110,21 @@ function createOrder(currentBasket, { res, req, next }, emit) {
 
     saveAddresses(req, order);
 
-    const isOrderCreated = handleCreateOrder(order);
-    if (isOrderCreated) {
-      COHelpers.sendConfirmationEmail(order, req.locale.id);
+    const paymentsResponse = handleCreateOrder(order);
+    if (paymentsResponse) {
+      if(paymentsResponse.isSuccessful) {
+        COHelpers.sendConfirmationEmail(order, req.locale.id);
 
-      // Reset usingMultiShip after successful Order placement
-      req.session.privacyCache.set('usingMultiShipping', false);
+        // Reset usingMultiShip after successful Order placement
+        req.session.privacyCache.set('usingMultiShipping', false);
+      }
 
-      res.json({
-        error: false,
-        orderID: order.orderNo,
-        orderToken: order.orderToken,
-        continueUrl: URLUtils.url('Order-Confirm').toString(),
+      const paymentInstrument = order.getPaymentInstruments(constants.METHOD_ADYEN_COMPONENT)[0];
+      Transaction.wrap(function () {
+        paymentInstrument.custom.adyenAction = JSON.stringify(paymentsResponse);
       });
-      return emit('route:Complete');
+      res.redirect(URLUtils.url('Adyen-RedirectActionResponse'));
+      return next();
     }
   }
   return undefined;

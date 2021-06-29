@@ -1,0 +1,36 @@
+<isset name="AdyenHelper" value="${require('*/cartridge/scripts/util/adyenHelper')}" scope="page"/>
+<isscript>
+    var assets = require('*/cartridge/scripts/assets.js');
+    assets.addJs('/js/bundle.js');
+    assets.addCss('/css/adyenCss.css');
+    assets.addCss('/css/adyenCSS.css');
+    assets.addJs('js/adyenPlaceOrder.js');
+</isscript>
+<script>
+    console.log('adyenHandleActionForm');
+    var clientKey = "${AdyenHelper.getAdyenClientKey()}";
+    var loadingContext = "${AdyenHelper.getLoadingContext()}";
+    var environment = "${AdyenHelper.getAdyenEnvironment().toLowerCase()}";
+    var locale = "${request.locale}";
+    var configuration = {clientKey, loadingContext, environment, locale};
+    var order = "${pdict.order}";
+    var orderCustom = "${pdict.order.billing}";
+    var paymentsResponse = "${pdict.order.custom.adyenPaymentsResponse}";
+    adyenPlaceOrder.handleAction(configuration, "${pdict.paymentsResponse}");
+</script>
+<isloop items="${pdict.order.billing.payment.selectedPaymentInstruments}" var="payment">
+    <isif condition="${payment.paymentMethod === 'AdyenComponent'}">
+         <script>
+             console.log('adyenHandleActionForm');
+             var clientKey = "${AdyenHelper.getAdyenClientKey()}";
+             var loadingContext = "${AdyenHelper.getLoadingContext()}";
+             var environment = "${AdyenHelper.getAdyenEnvironment().toLowerCase()}";
+             var locale = "${request.locale}";
+             var configuration = {clientKey, loadingContext, environment, locale};
+             var order = "${pdict.Order}";
+             var orderCustom = "${pdict.Order.custom}";
+             var paymentsResponse = "${payment.adyenAction}";
+             adyenPlaceOrder.handleAction(configuration, paymentsResponse);
+         </script>
+    </isif>
+</isloop>

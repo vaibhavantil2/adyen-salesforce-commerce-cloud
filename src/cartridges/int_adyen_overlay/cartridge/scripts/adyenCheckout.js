@@ -166,6 +166,23 @@ function doPaymentsCall(order, paymentInstrument, paymentRequest) {
       return responseObject;
     }
 
+    const adyenCheckoutResponse =  AdyenHelper.createAdyenCheckoutResponse(responseObject);
+
+    // Manage order status based on Adyen Checkout Response
+    if(adyenCheckoutResponse.isSuccessful) {
+      AdyenHelper.savePaymentDetails(paymentInstrument, order, responseObject);
+      order.setPaymentStatus(Order.PAYMENT_STATUS_PAID);
+      order.setExportStatus(Order.EXPORT_STATUS_READY);
+      Logger.getLogger('Adyen').info('Payment result: Authorised');
+    } else {
+      // If received statusCode can contain action, update adyenHelper class!
+      // order.setPaymentStatus(Order.PAYMENT_STATUS_NOTPAID);
+      // order.setExportStatus(Order.EXPORT_STATUS_NOTEXPORTED);
+    }
+
+    return adyenCheckoutResponse;
+
+    //ORIGINAL CODE
     paymentResponse.fullResponse = responseObject;
     paymentResponse.redirectObject = responseObject.redirect
       ? responseObject.redirect

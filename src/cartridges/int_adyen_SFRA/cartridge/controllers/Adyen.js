@@ -7,55 +7,6 @@ const { adyen } = require('./middlewares/index');
 const EXTERNAL_PLATFORM_VERSION = 'SFRA';
 
 /**
- * Complete a 3DS payment
- */
-server.get(
-  'Adyen3D',
-  csrfProtection.generateToken,
-  server.middleware.https,
-  adyen.adyen3d,
-);
-
-/**
- * Make /payments/details call to 3d verification system to complete authorization
- */
-server.post(
-  'AuthorizeWithForm',
-  csrfProtection.generateToken,
-  server.middleware.https,
-  adyen.authorizeWithForm,
-);
-
-/**
- * Complete a 3DS2 payment
- */
-server.get(
-  'Adyen3DS2',
-  consentTracking.consent,
-  csrfProtection.generateToken,
-  server.middleware.https,
-  adyen.adyen3ds2,
-);
-
-/**
- * Make second call to /payments/details with IdentifyShopper or ChallengeShopper token
- *
- * @returns rendering template or error
- */
-server.post(
-  'Authorize3DS2',
-  csrfProtection.generateToken,
-  csrfProtection.validateRequest,
-  server.middleware.https,
-  adyen.authorize3ds2,
-);
-
-/**
- * Redirect to Adyen after saving order etc.
- */
-server.get('Redirect', server.middleware.https, adyen.redirect);
-
-/**
  * Show confirmation after return from Adyen
  */
 server.get('ShowConfirmation', server.middleware.https, adyen.showConfirmation);
@@ -72,6 +23,14 @@ server.post(
   'Redirect3DS1Response',
   server.middleware.https,
   adyen.redirect3ds1Response,
+);
+
+/**
+ * Redirect to Adyen after payments response to adyen action handler form
+ */
+server.get('RedirectActionResponse',
+    server.middleware.https,
+    adyen.redirectActionResponse,
 );
 
 /**

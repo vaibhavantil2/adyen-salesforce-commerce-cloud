@@ -38,7 +38,7 @@ function paymentErrorHandler(result) {
  * @param {dw.order.PaymentInstrument} paymentInstrument -  The payment instrument to authorize
  * @param {dw.order.PaymentProcessor} paymentProcessor -  The payment processor of the current
  *      payment method
- * @return {Object} returns an error object
+ * @return {Object} returns a parse API response object
  */
 function authorize(orderNumber, paymentInstrument, paymentProcessor) {
   const order = OrderMgr.getOrder(orderNumber);
@@ -52,19 +52,8 @@ function authorize(orderNumber, paymentInstrument, paymentProcessor) {
     Order: order,
     PaymentInstrument: paymentInstrument,
   });
-  if (result.error) {
-    return errorHandler();
-  }
-  // Trigger 3DS2 flow
-  if (check3DS2(result)) {
-    return paymentResponseHandler(paymentInstrument, result, orderNumber);
-  }
-  if (result.decision !== 'ACCEPT') {
-    return paymentErrorHandler(result);
-  }
-  AdyenHelper.savePaymentDetails(paymentInstrument, order, result.fullResponse);
   Transaction.commit();
-  return { authorized: true, error: false };
+  return result;
 }
 
 module.exports = authorize;
