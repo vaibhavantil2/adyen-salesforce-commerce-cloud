@@ -16,22 +16,11 @@ function showConfirmation(req, res, next) {
 
   try {
     const order = OrderMgr.getOrder(req.querystring.merchantReference);
-    const paymentInstruments = order.getPaymentInstruments(
-      constants.METHOD_ADYEN_COMPONENT,
-    );
-    const {
-      details,
-      paymentData,
-      adyenPaymentInstrument,
-    } = payment.handlePaymentInstruments(paymentInstruments, options);
+    const paymentInstruments = order.getPaymentInstruments(constants.METHOD_ADYEN_COMPONENT);
 
-    // redirect to payment/details
-    const requestObject = {
-      details,
-      paymentData,
-    };
-
-    const result = adyenCheckout.doPaymentsDetailsCall(requestObject);
+    const { details, paymentData, adyenPaymentInstrument } = payment.handlePaymentInstruments(paymentInstruments, options);
+    const result = adyenCheckout.doPaymentsDetailsCall(details, paymentData);
+    Logger.getLogger('Adyen').error(JSON.stringify(result));
     clearForms.clearAdyenData(adyenPaymentInstrument);
 
     if (result.invalidRequest) {
@@ -48,6 +37,7 @@ function showConfirmation(req, res, next) {
         options,
       );
     }
+
     return payment.handlePaymentError(order, 'placeOrder', options);
   } catch (e) {
     Logger.getLogger('Adyen').error(

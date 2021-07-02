@@ -1,36 +1,61 @@
 <isset name="AdyenHelper" value="${require('*/cartridge/scripts/util/adyenHelper')}" scope="page"/>
-<isscript>
-    var assets = require('*/cartridge/scripts/assets.js');
-    assets.addJs('/js/bundle.js');
-    assets.addCss('/css/adyenCss.css');
-    assets.addCss('/css/adyenCSS.css');
-    assets.addJs('js/adyenPlaceOrder.js');
-</isscript>
-<script>
-    console.log('adyenHandleActionForm');
-    var clientKey = "${AdyenHelper.getAdyenClientKey()}";
-    var loadingContext = "${AdyenHelper.getLoadingContext()}";
-    var environment = "${AdyenHelper.getAdyenEnvironment().toLowerCase()}";
-    var locale = "${request.locale}";
-    var configuration = {clientKey, loadingContext, environment, locale};
-    var order = "${pdict.order}";
-    var orderCustom = "${pdict.order.billing}";
-    var paymentsResponse = "${pdict.order.custom.adyenPaymentsResponse}";
-    adyenPlaceOrder.handleAction(configuration, "${pdict.paymentsResponse}");
-</script>
-<isloop items="${pdict.order.billing.payment.selectedPaymentInstruments}" var="payment">
-    <isif condition="${payment.paymentMethod === 'AdyenComponent'}">
-         <script>
-             console.log('adyenHandleActionForm');
-             var clientKey = "${AdyenHelper.getAdyenClientKey()}";
-             var loadingContext = "${AdyenHelper.getLoadingContext()}";
-             var environment = "${AdyenHelper.getAdyenEnvironment().toLowerCase()}";
-             var locale = "${request.locale}";
-             var configuration = {clientKey, loadingContext, environment, locale};
-             var order = "${pdict.Order}";
-             var orderCustom = "${pdict.Order.custom}";
-             var paymentsResponse = "${payment.adyenAction}";
-             adyenPlaceOrder.handleAction(configuration, paymentsResponse);
-         </script>
-    </isif>
-</isloop>
+<head>
+    <script src="${AdyenHelper.getCheckoutUrl()}"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+</head>
+<body>
+    <div id="card" style="display: none;"></div>
+    <div class="modal fade" id="action-modal" role="dialog">
+        <div class="modal-dialog" id="adyenModalDialog">
+            <div id="action-container"></div>
+        </div>
+    </div>
+    <form method="post"
+        id="confirmPaymentForm"
+        action="Adyen-ShowConfirmation">
+        <input type="hidden" id="orderNo" name="orderNo" value="${pdict.orderNo}"/>
+        <input type="hidden" id="paymentStateData" name="data" value=""/>
+    </form>
+    <script>
+        var clientKey = "${AdyenHelper.getAdyenClientKey()}";
+        var loadingContext = "${AdyenHelper.getLoadingContext()}";
+        var environment = "${AdyenHelper.getAdyenEnvironment().toLowerCase()}";
+        var locale = "${request.locale}";
+        var configuration= {clientKey, loadingContext, environment, locale};
+        configuration.onAdditionalDetails = function(state) {
+            console.log(state);
+            window.location.href = '${URLUtils.url('Adyen-ShowConfirmation')}?merchantReference=${pdict.orderNo}&data=' + encodeURIComponent(JSON.stringify(state.data));
+<!--             $.get({ -->
+<!--                 url: 'Adyen-ShowConfirmation', -->
+<!--                 data: { -->
+<!--                     merchantReference: "${pdict.orderNo}", -->
+<!--                     data: JSON.stringify(state.data), -->
+<!--                 }, -->
+<!--                 success: function(redirectUrl) { -->
+<!--                     console.log('succesfully showconfirmarion'); -->
+<!--                     console.log(redirectUrl); -->
+<!--                     window.location.href = redirectUrl; -->
+<!--                 } -->
+<!--             }); -->
+        }
+
+        var paymentsResponse = JSON.parse("${pdict.paymentInstrument.custom.adyenAction}".replace(/&quot;/g, '\"'));
+
+        if(paymentsResponse.isSuccessful) {
+            console.log('isSuccessful');
+            window.location.href = "${URLUtils.url('Order-Confirm')}"
+        }
+        if(paymentsResponse.action) {
+            console.log('action');
+            // card and checkout component creation
+            var cardNode = document.getElementById('card');
+            var actionContainer = document.getElementById('action-container');
+            var checkout = new AdyenCheckout(configuration);
+            var card = checkout.create('card').mount(cardNode);
+            checkout.createFromAction(paymentsResponse.action).mount(actionContainer);
+        } else {
+            console.log('UNKNOWN');
+            console.log(paymentsResponse);
+        }
+    </script>
+</body>

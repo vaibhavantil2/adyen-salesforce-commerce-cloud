@@ -16,6 +16,7 @@ function redirect(req, res, next) {
     const result = adyenCheckout.doPaymentsDetailsCall(jsonRequest);
 
     if (result.resultCode === 'Authorised') {
+
       res.redirect(URLUtils.url('PaymentInstruments-List'));
     } else {
       res.redirect(

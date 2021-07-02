@@ -538,6 +538,7 @@ var adyenHelperObj = {
 
     stateData.merchantAccount = adyenHelperObj.getAdyenMerchantAccount();
     stateData.reference = reference;
+    stateData.redirectFromIssuerMethod = 'POST';
     stateData.returnUrl = URLUtils.https(
       'Adyen-ShowConfirmation',
       'merchantReference',

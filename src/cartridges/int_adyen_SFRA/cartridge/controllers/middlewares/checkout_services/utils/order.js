@@ -112,19 +112,39 @@ function createOrder(currentBasket, { res, req, next }, emit) {
 
     const paymentsResponse = handleCreateOrder(order);
     if (paymentsResponse) {
-      if(paymentsResponse.isSuccessful) {
+      if (paymentsResponse.isSuccessful) {
         COHelpers.sendConfirmationEmail(order, req.locale.id);
 
         // Reset usingMultiShip after successful Order placement
         req.session.privacyCache.set('usingMultiShipping', false);
-      }
 
-      const paymentInstrument = order.getPaymentInstruments(constants.METHOD_ADYEN_COMPONENT)[0];
-      Transaction.wrap(function () {
-        paymentInstrument.custom.adyenAction = JSON.stringify(paymentsResponse);
-      });
-      res.redirect(URLUtils.url('Adyen-RedirectActionResponse'));
-      return next();
+        // redirect to Order-Confirm if successful
+        res.json({
+          error: false,
+          orderID: order.orderNo,
+          orderToken: order.orderToken,
+          continueUrl: URLUtils.url('Order-Confirm').toString(),
+        });
+        return emit('route:Complete');
+      } else if (paymentsResponse.action) {
+
+        // redirect to RedirectActionResponse if response contains an action
+        const paymentInstrument = order.getPaymentInstruments(constants.METHOD_ADYEN_COMPONENT)[0];
+        Transaction.wrap(function () {
+          paymentInstrument.custom.adyenAction = JSON.stringify(paymentsResponse);
+        });
+
+
+        res.json({
+          error: false,
+          continueUrl: URLUtils.url(
+              'Adyen-RedirectActionResponse',
+              'orderNo',
+              order.orderNo
+          ).toString()
+        });
+        return emit('route:Complete');
+      }
     }
   }
   return undefined;

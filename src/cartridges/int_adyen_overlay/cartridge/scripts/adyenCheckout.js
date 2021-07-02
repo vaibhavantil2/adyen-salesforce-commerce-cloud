@@ -170,14 +170,24 @@ function doPaymentsCall(order, paymentInstrument, paymentRequest) {
 
     // Manage order status based on Adyen Checkout Response
     if(adyenCheckoutResponse.isSuccessful) {
+      adyenCheckoutResponse.decision = 'ACCEPT';
       AdyenHelper.savePaymentDetails(paymentInstrument, order, responseObject);
       order.setPaymentStatus(Order.PAYMENT_STATUS_PAID);
       order.setExportStatus(Order.EXPORT_STATUS_READY);
+
       Logger.getLogger('Adyen').info('Payment result: Authorised');
+    } else if(!adyenCheckoutResponse.isSuccessful && adyenCheckoutResponse.isFinal){
+      adyenCheckoutResponse.decision = 'REFUSED';
+      order.setPaymentStatus(Order.PAYMENT_STATUS_NOTPAID);
+      order.setExportStatus(Order.EXPORT_STATUS_NOTEXPORTED);
+
+      errorMessage = Resource.msg('confirm.error.declined', 'checkout', null);
+      adyenCheckoutResponse.adyenErrorMessage = errorMessage;
+      Logger.getLogger('Adyen').info('Payment result: Refused');
     } else {
-      // If received statusCode can contain action, update adyenHelper class!
-      // order.setPaymentStatus(Order.PAYMENT_STATUS_NOTPAID);
-      // order.setExportStatus(Order.EXPORT_STATUS_NOTEXPORTED);
+      adyenCheckoutResponse.decision = 'ACCEPT';
+      order.setPaymentStatus(Order.PAYMENT_STATUS_NOTPAID);
+      order.setExportStatus(Order.EXPORT_STATUS_NOTEXPORTED);
     }
 
     return adyenCheckoutResponse;

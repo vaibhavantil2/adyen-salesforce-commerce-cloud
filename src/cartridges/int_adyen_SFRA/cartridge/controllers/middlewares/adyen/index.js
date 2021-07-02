@@ -10,7 +10,7 @@ const notify = require('./notify');
 const showConfirmationPaymentFromComponent = require('./showConfirmationPaymentFromComponent');
 const paymentsDetails = require('./paymentsDetails');
 const redirect3ds1Response = require('./redirect3ds1Response');
-const redirectActionResponse = require('./redirectActionResponse');
+const redirectActionResponse = require('./redirectActionResponse')
 
 module.exports = {
   adyen3d,
@@ -25,5 +25,5 @@ module.exports = {
   showConfirmationPaymentFromComponent,
   paymentsDetails,
   redirect3ds1Response,
-  redirectActionResponse
+  redirectActionResponse,
 };

@@ -5,6 +5,8 @@ const OrderMgr = require('dw/order/OrderMgr');
 const Logger = require('dw/system/Logger');
 
 function handleRedirect(page, { res }) {
+  Logger.getLogger('Adyen').error('status no bueno');
+  Logger.getLogger('Adyen').error(page);
   res.redirect(
     URLUtils.url(
       'Checkout-Begin',
@@ -57,9 +59,11 @@ function handlePaymentInstruments(paymentInstruments, { req }) {
 
   // details is either redirectResult or payload
   if (req.querystring.redirectResult) {
-    details = { redirectResult: req.querystring.redirectResult };
+    details = {details: { redirectResult: req.querystring.redirectResult }};
   } else if (req.querystring.payload) {
-    details = { payload: req.querystring.payload };
+    details = {details: { payload: req.querystring.payload }};
+  } else if (req.querystring.data) {
+    details = JSON.parse(req.querystring.data);
   }
   return { details, paymentData, adyenPaymentInstrument };
 }
