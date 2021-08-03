@@ -17,15 +17,15 @@ var Order = require('dw/order/Order');
 var COHelpers = require('*/cartridge/scripts/checkout/checkoutHelpers');
 
 function sendEmail(order) {
-  var confirmationEmail = new Mail();
+  var confirmationSellerEmail = new Mail();
   var context = new HashMap();
   var savedOrderModel = order.custom.Adyen_CustomerEmail;
   var orderObject = {
     order: JSON.parse(savedOrderModel)
   };
-  confirmationEmail.addTo(order.customerEmail);
+  confirmationSellerEmail.addTo(order.customerEmail);
   confirmationSellerEmail.setSubject(Resource.msg('subject.order.confirmation.email', 'order', null));
-  confirmationEmail.setFrom(Site.current.getCustomPreferenceValue('customerServiceEmail') || 'no-reply@salesforce.com');
+  confirmationSellerEmail.setFrom(Site.current.getCustomPreferenceValue('customerServiceEmail') || 'no-reply@salesforce.com');
   Object.keys(orderObject).forEach(function (key) {
     context.put(key, orderObject[key]);
   });
