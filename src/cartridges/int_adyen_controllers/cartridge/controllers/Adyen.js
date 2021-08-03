@@ -376,7 +376,7 @@ function getPaymentMethods(cart, customer) {
   const currentBasket = BasketMgr.getCurrentBasket();
   if (
     currentBasket.getShipments().length > 0 &&
-    currentBasket.getShipments()[0].shippingAddress
+    currentBasket.getShipments()[0].sellerShippingAddress
   ) {
     countryCode = currentBasket
       .getShipments()[0]
