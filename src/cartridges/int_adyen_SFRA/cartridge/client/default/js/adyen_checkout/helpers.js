@@ -38,9 +38,9 @@ function resetPaymentMethod() {
   $('#dateOfBirth').val('');
   $('#telephoneNumber').val('');
   $('#gender').val('');
-  $('#bankAccountOwnerName').val('');
-  $('#bankAccountNumber').val('');
-  $('#bankLocationId').val('');
+  $('#seller-bankAccountOwnerName').val('');
+  $('#seller-bankAccountNumber').val('');
+  $('#seller-bankLocationId').val('');
   $('.additionalFields').hide();
 }
 
