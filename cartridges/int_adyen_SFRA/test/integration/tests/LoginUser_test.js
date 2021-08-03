@@ -70,7 +70,7 @@ Scenario("Logged in Credit card store details and subsequent payment", function 
   I.addProductToCart();
   I.amOnPage(config.Storefront.login);
   I.click(".submit-shipping");
-  I.fillField("#email", config.userAccount.username);
+  I.fillField("#email", config.sellerAccount.username);
   I.setOneclickCVC(config.cardSuccess);
   I.submitPayment();
   I.placeOrder();
