@@ -258,7 +258,7 @@ function createLogMessage(customObj) {
   msg = "".concat(msg, "\nmerchantReference : ").concat(customObj.custom.merchantReference);
   msg = "".concat(msg, "\ncurrency : ").concat(customObj.custom.currency);
   msg = "".concat(msg, "\npspReference : ").concat(customObj.custom.pspReference);
-  msg = "".concat(msg, "\nmerchantAccountCode : ").concat(customObj.custom.merchantAccountCode);
+  msg = "".concat(msg, "\nmerchantAccountCode : ").concat(customObj.custom.sellerAccountId);
   msg = "".concat(msg, "\neventCode : ").concat(customObj.custom.eventCode);
   msg = "".concat(msg, "\nvalue : ").concat(customObj.custom.value);
   msg = "".concat(msg, "\noperations : ").concat(customObj.custom.operations);
