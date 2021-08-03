@@ -129,7 +129,7 @@ function createLogMessage(notificationData) {
   msg = `${msg}\nmerchantReference : ${notificationData.merchantReference}`;
   msg = `${msg}\ncurrency : ${notificationData.currency}`;
   msg = `${msg}\npspReference : ${notificationData.pspReference}`;
-  msg = `${msg}\nmerchantAccountCode : ${notificationData.merchantAccountCode}`;
+  msg = `${msg}\sellerAccountId : ${notificationData.sellerAccountId}`;
   msg = `${msg}\neventCode : ${notificationData.eventCode}`;
   msg = `${msg}\nvalue : ${notificationData.value}`;
   msg = `${msg}\noperations : ${notificationData.operations}`;
