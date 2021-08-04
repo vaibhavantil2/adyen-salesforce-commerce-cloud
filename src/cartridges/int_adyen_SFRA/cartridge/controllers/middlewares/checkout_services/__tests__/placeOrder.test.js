@@ -63,7 +63,7 @@ describe('Place Order', () => {
   it('should fail if shipping address is empty', () => {
     const BasketMgr = require('dw/order/BasketMgr');
     BasketMgr.getDefaultShipment.mockImplementation(() => ({
-      shippingAddress: null,
+      seller_shippingAddress: null,
     }));
     placeOrder.call({ emit: jest.fn() }, req, res, jest.fn());
     expect(res.json.mock.calls).toMatchSnapshot();
