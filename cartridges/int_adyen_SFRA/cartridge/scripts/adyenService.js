@@ -24,7 +24,7 @@ function sendEmail(order) {
     order: JSON.parse(savedOrderModel)
   };
   confirmationSellerEmail.addTo(order.customerEmail);
-  confirmationSellerEmail.setSubject(Resource.msg('subject.order.confirmation.email', 'order', null));
+  confirmationSellerEmail.setSubject(Resource.msg('seller.order.confirmation.email', 'order', null));
   confirmationSellerEmail.setFrom(Site.current.getCustomPreferenceValue('customerServiceEmail') || 'no-reply@salesforce.com');
   Object.keys(orderObject).forEach(function (key) {
     context.put(key, orderObject[key]);
