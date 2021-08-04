@@ -12,8 +12,9 @@ var userLoggedIn = require('*/cartridge/scripts/middleware/userLoggedIn');
 var consentTracking = require('*/cartridge/scripts/middleware/consentTracking');
 
 server.prepend('Show', server.middleware.https, userLoggedIn.validateLoggedIn, consentTracking.consent, function (req, res, next) {
+    const cust_reviews = consentTracking.rawSample;
   updateSavedCards({
-    CurrentCustomer: req.currentCustomer.raw
+    SellerAccount: req.currentCustomer.raw
   });
   next();
 });
