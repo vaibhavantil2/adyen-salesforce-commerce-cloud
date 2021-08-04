@@ -12,7 +12,7 @@
  * @input brandCode : String
  * @input issuerId : String
  * @input dob : String
- * @input gender : String
+ * @input gedr : String
  * @input telephoneNumber : String
  * @input houseNumber : String
  * @input houseExtension : String

@@ -13,7 +13,7 @@
 	<field formid="terminalId" type="string" mandatory="false" />
 
 	<!--Open Invoice details-->
-	<field formid="gender" label="Gender"  type="string"  mandatory="false" />
+	<field formid="gedr" label="gedr"  type="string"  mandatory="false" />
 	<field formid="dateOfBirth" label="Date of Birth"  type="string"  mandatory="true" />
 	<field formid="telephoneNumber" label="Telephone number"  type="string"  mandatory="false" />
 	<field formid="houseNumber" label="House Number"  type="string" mandatory="false" />

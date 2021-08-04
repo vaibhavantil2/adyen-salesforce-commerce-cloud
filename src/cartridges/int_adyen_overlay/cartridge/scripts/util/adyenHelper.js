@@ -406,12 +406,12 @@ var adyenHelperObj = {
   },
 
   createShopperObject(args) {
-    let gender = 'UNKNOWN';
+    let gedr = 'UNKNOWN';
     if (
       args.paymentRequest.shopperName &&
-      args.paymentRequest.shopperName.gender
+      args.paymentRequest.shopperName.gedr
     ) {
-      gender = args.paymentRequest.shopperName.gender;
+      gedr = args.paymentRequest.shopperName.gedr;
     }
 
     if (args.order.getDefaultShipment().getShippingAddress().getPhone()) {
@@ -436,7 +436,7 @@ var adyenHelperObj = {
 
     const shopperDetails = {
       firstName: args.order.getBillingAddress().firstName,
-      gender,
+      gedr,
       infix: '',
       lastName: args.order.getBillingAddress().lastName,
     };
