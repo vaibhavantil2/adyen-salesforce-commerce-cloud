@@ -42,11 +42,7 @@ function getLineItems(_ref) {
 
     var currentLineItem = _objectSpread(_objectSpread(_objectSpread((_objectSpread2 = {}, _defineProperty(_objectSpread2, "enhancedSchemeData.itemDetailLine".concat(index + 1, ".unitPrice"), itemAmount.value.toFixed()), _defineProperty(_objectSpread2, "enhancedSchemeData.itemDetailLine".concat(index + 1, ".totalAmount"), parseFloat(itemAmount.value.toFixed()) + parseFloat(vatAmount.value.toFixed())), _defineProperty(_objectSpread2, "enhancedSchemeData.itemDetailLine".concat(index + 1, ".quantity"), quantity), _defineProperty(_objectSpread2, "enhancedSchemeData.itemDetailLine".concat(index + 1, ".unitOfMeasure"), 'EAC'), _objectSpread2), commodityCode && _defineProperty({}, "enhancedSchemeData.itemDetailLine".concat(index + 1, ".commodityCode"), commodityCode)), description && _defineProperty({}, "enhancedSchemeData.itemDetailLine".concat(index + 1, ".description"), description.substring(0, 26).replace(/[^\x00-\x7F]/g, ''))), id && _defineProperty({}, "enhancedSchemeData.itemDetailLine".concat(index + 1, ".productCode"), id.substring(0, 12)));
 
-    return _objectSpread(_objectSpread(_objectSpread({}, acc), currentLineItem), {}, {
-      'enhancedSchemeData.totalTaxAmount': acc['enhancedSchemeData.totalTaxAmount'] + parseFloat(vatAmount.value.toFixed())
-    });
-  }, {
-    'enhancedSchemeData.totalTaxAmount': 0.0,
+    return _ob: 0.0,
     'enhancedSchemeData.customerReference': shopperReference.substring(0, 25)
   });
 }
