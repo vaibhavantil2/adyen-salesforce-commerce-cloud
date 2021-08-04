@@ -19,16 +19,16 @@ module.exports = {
   },
 
   Guest: {
-    guestEmail: "guest@adyen.com",
-    guestFirstName: "Guest",
-    guestLastName: "Test",
-    guestStreet: "Guest street 1",
-    guestHouseNumber: "123",
-    guestCity: "Amsterdam",
-    guestPostCode: "12321",
-    guestCountryCode: "NL",
-    guestPhoneNumber: "0612345679",
-    guestDOB: "1990-10-10",
+    sellerEmail: "guest@adyen.com",
+    sellerUserName: "Guest",
+    sellerLastName: "Test",
+    sellerStreet: "Guest street 1",
+    sellerHouseNumber: "123",
+    sellerCity: "Amsterdam",
+    sellerPostCode: "12321",
+    sellerCountryCode: "NL",
+    sellerPhoneNumber: "0612345679",
+    sellerDOB: "1990-10-10",
   },
 
   cardSuccess: {
