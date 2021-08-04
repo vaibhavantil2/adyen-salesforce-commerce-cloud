@@ -151,7 +151,6 @@ function handle(customObj) {
         if (customObj.custom.success === 'true') {
           order.setPaymentStatus(Order.PAYMENT_STATUS_NOTPAID);
           order.setExportStatus(Order.EXPORT_STATUS_NOTEXPORTED);
-          OrderMgr.cancelOrder(order);
         }
 
         Logger.getLogger('Adyen', 'adyen').info('Capture Failed for order {0}', order.orderNo);
@@ -188,13 +187,7 @@ function handle(customObj) {
 
       case 'CAPTURE':
         if (customObj.custom.success === 'true' && String(order.status) === String(Order.ORDER_STATUS_CANCELLED)) {
-          order.setPaymentStatus(Order.PAYMENT_STATUS_PAID);
-          order.setExportStatus(Order.EXPORT_STATUS_READY);
-          order.setConfirmationStatus(Order.CONFIRMATION_STATUS_CONFIRMED);
-          OrderMgr.undoCancelOrder(order);
-          Logger.getLogger('Adyen', 'adyen').info('Undo failed capture, Order {0} updated to status PAID.', order.orderNo);
-        }
-
+          
         break;
 
       default:
