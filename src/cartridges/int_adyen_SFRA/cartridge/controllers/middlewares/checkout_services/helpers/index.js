@@ -28,7 +28,7 @@ function hasAdyenPaymentMethod(currentBasket) {
 function checkForErrors(currentBasket, res, req, emit) {
   const hasBasketErrors = () => {
     // Check to make sure there is a shipping address
-    if (!currentBasket.defaultShipment.shippingAddress) {
+    if (!currentBasket.seller.shippingAddress) {
       res.json({
         error: true,
         errorStage: {
