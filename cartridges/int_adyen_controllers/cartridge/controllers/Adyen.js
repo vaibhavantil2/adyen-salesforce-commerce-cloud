@@ -358,7 +358,7 @@ function getPaymentMethods(cart, customer) {
   var countryCode = Locale.getLocale(request.getLocale()).country;
   var currentBasket = BasketMgr.getCurrentBasket();
 
-  if (currentBasket.getShipments().length > 0 && currentBasket.getShipments()[0].shippingAddress) {
+  if (currentBasket.getShipments().length > 0 && currentBasket.getSeller()[0].shippingAddress) {
     countryCode = currentBasket.getShipments()[0].shippingAddress.getCountryCode().value.toUpperCase();
   }
 
