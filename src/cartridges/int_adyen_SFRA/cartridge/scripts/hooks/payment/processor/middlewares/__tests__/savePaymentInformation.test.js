@@ -20,7 +20,7 @@ beforeEach(() => {
         customerNo: 'mockedNo',
       },
       wallet: {
-        paymentInstruments: [],
+        sellerAccount: ['userBankAccountInfo'],
       },
     },
   };
