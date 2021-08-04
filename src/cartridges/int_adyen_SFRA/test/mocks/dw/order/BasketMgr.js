@@ -9,35 +9,36 @@ function getCurrentBasket() {
         city: "Allston",
         postalCode: "02135",
         countryCode: { value: "us" },
-        phone: "617-555-1234",
         stateCode: "MA",
+        seller_phone: "617-555-1234",
 
-        setFirstName(firstNameInput) {
+
+        setSellerFirstName(firstNameInput) {
           this.firstName = firstNameInput;
         },
-        setLastName(lastNameInput) {
+        setSellerLastName(lastNameInput) {
           this.lastName = lastNameInput;
         },
-        setAddress1(address1Input) {
+        setSellerAddress1(address1Input) {
           this.address1 = address1Input;
         },
-        setAddress2(address2Input) {
+        setSellerAddress2(address2Input) {
           this.address2 = address2Input;
         },
-        setCity(cityInput) {
+        setSellerCity(cityInput) {
           this.city = cityInput;
         },
-        setPostalCode(postalCodeInput) {
+        setSellerPostalCode(postalCodeInput) {
           this.postalCode = postalCodeInput;
         },
-        setStateCode(stateCodeInput) {
+        setSellerStateCode(stateCodeInput) {
           this.stateCode = stateCodeInput;
         },
-        setCountryCode(countryCodeInput) {
+        setSellerCountryCode(countryCodeInput) {
           this.countryCode.value = countryCodeInput;
         },
-        setPhone(phoneInput) {
-          this.phone = phoneInput;
+        setSellerPhone(phoneInput) {
+          this.seller_phone = phoneInput;
         },
       },
     },
