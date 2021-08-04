@@ -171,16 +171,16 @@ function getAmazonpayConfig() {
     checkoutMode: 'ProcessOrder',
     returnUrl: window.returnURL,
     addressDetails: {
-      name: `${document.querySelector('#shippingFirstNamedefault').value} ${
-        document.querySelector('#shippingLastNamedefault').value
+      name: `${document.querySelector('#sellerFirstNamedefault').value} ${
+        document.querySelector('#sellerLastNamedefault').value
       }`,
-      sellerAddressLine1: document.querySelector('#shippingFirstNamedefault').value,
-      city: document.querySelector('#shippingAddressCitydefault').value,
-      stateOrRegion: document.querySelector('#shippingAddressCitydefault')
+      AddressLine1: document.querySelector('#sellerFirstNamedefault').value,
+      city: document.querySelector('#sellerAddressCitydefault').value,
+      stateOrRegion: document.querySelector('#sellerAddressCitydefault')
         .value,
       postalCode: document.querySelector('#sellerDefaultCode').value,
-      countryCode: document.querySelector('#shippingCountrydefault').value,
-      phoneNumber: document.querySelector('#shippingPhoneNumberdefault').value,
+      countryCode: document.querySelector('#sellerCountrydefault').value,
+      phoneNumber: document.querySelector('#sellerPhoneNumberdefault').value,
     },
     configuration: {
       merchantId: window.amazonMerchantID,
