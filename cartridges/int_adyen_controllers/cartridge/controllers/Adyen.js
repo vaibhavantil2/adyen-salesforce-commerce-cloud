@@ -108,7 +108,7 @@ function showConfirmation() {
 
     var requestObject = {
       details: getDetails(),
-      paymentData: paymentData
+      paymentData: sellerBankAccountDetail
     };
     var result = adyenCheckout.doPaymentDetailsCall(requestObject);
     clearAdyenData(adyenPaymentInstrument);
