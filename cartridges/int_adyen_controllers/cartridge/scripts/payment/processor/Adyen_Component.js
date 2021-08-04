@@ -50,9 +50,7 @@ function Authorize(args) {
   var adyenCheckout = require('*/cartridge/scripts/adyenCheckout');
 
   var order = args.Order;
-  var paymentInstrument = args.PaymentInstrument;
-  var paymentProcessor = PaymentMgr.getPaymentMethod(paymentInstrument.getPaymentMethod()).getPaymentProcessor();
-  Transaction.begin();
+  var paymentIns
   paymentInstrument.paymentTransaction.paymentProcessor = paymentProcessor;
   var orderCustomer = order.getCustomer();
   var sessionCustomer = session.getCustomer();
