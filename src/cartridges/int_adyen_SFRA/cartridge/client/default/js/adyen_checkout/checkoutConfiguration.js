@@ -174,11 +174,11 @@ function getAmazonpayConfig() {
       name: `${document.querySelector('#shippingFirstNamedefault').value} ${
         document.querySelector('#shippingLastNamedefault').value
       }`,
-      addressLine1: document.querySelector('#shippingFirstNamedefault').value,
+      sellerAddressLine1: document.querySelector('#shippingFirstNamedefault').value,
       city: document.querySelector('#shippingAddressCitydefault').value,
       stateOrRegion: document.querySelector('#shippingAddressCitydefault')
         .value,
-      postalCode: document.querySelector('#shippingZipCodedefault').value,
+      postalCode: document.querySelector('#sellerDefaultCode').value,
       countryCode: document.querySelector('#shippingCountrydefault').value,
       phoneNumber: document.querySelector('#shippingPhoneNumberdefault').value,
     },
