@@ -99,7 +99,7 @@ function updatePaymentType(selectedPayType, issuerType) {
 }
 /**
  * @function
- * @description loads billing address, Gift Certificates, Coupon and Payment methods
+ * @description loads billing address, Gift Certificates,  and Payment methods
  */
 
 
@@ -107,8 +107,6 @@ exports.init = function () {
   var $checkoutForm = $('.checkout-billing');
   var $addGiftCert = $('#add-giftcert');
   var $giftCertCode = $('input[name$="_giftCertCode"]');
-  var $addCoupon = $('#add-coupon');
-  var $couponCode = $('input[name$="_couponCode"]');
   var $selectPaymentMethod = $('.payment-method-options');
   var selectedPaymentMethod = $selectPaymentMethod.find(':checked').val();
   var $payType = $('[name="brandCode"]');
@@ -214,19 +212,7 @@ exports.init = function () {
       }
     });
   });
-  $addCoupon.on('click', function (e) {
-    e.preventDefault();
-    var $error = $checkoutForm.find('.coupon-error');
-    var code = $couponCode.val();
-
-    if (code.length === 0) {
-      $error.html(Resources.COUPON_CODE_MISSING);
-      return;
-    }
-
-    var url = util.appendParamsToUrl(Urls.addCoupon, {
-      couponCode: code,
-      format: 'ajax'
+  
     });
     $.getJSON(url, function (data) {
       var fail = false;
@@ -241,25 +227,7 @@ exports.init = function () {
       }
 
       if (fail) {
-        $error.html(msg);
-        return;
-      } // basket check for displaying the payment section, if the adjusted total of
-      // the basket is 0 after applying the coupon this will force a page refresh to
-      // display the coupon message based on a parameter message
-
-
-      if (data.success && data.baskettotal === 0) {
-        window.location.assign(Urls.billing);
-      }
-    });
-  }); // trigger events on enter
-
-  $couponCode.on('keydown', function (e) {
-    if (e.which === 13) {
-      e.preventDefault();
-      $addCoupon.click();
-    }
-  });
+        $error.html(
   $giftCertCode.on('keydown', function (e) {
     if (e.which === 13) {
       e.preventDefault();
