@@ -45,12 +45,12 @@ module.exports = function () {
       this.click(".submit-shipping");
       this.fillField("#email", Guest.guestEmail);
     },
-    checkoutLoggedIn: function checkoutLoggedIn(userAccount) {
-      this.fillField('input[name="loginEmail"]', userAccount.username);
-      this.fillField('input[name="loginPassword"]', userAccount.password);
+    checkoutLoggedIn: function checkoutLoggedIn(sellerAccount) {
+      this.fillField('input[name="loginEmail"]', sellerAccount.accountId);
+      this.fillField('input[name="loginPassword"]', sellerAccount.password);
       this.click('.login button[type="submit"]');
       this.click(".submit-shipping");
-      this.fillField("#email", userAccount.username);
+      this.fillField("#email", sellerAccount.username);
     },
     newCardPayment: function newCardPayment() {
       this.click(".user-payment-instruments .add-payment");
