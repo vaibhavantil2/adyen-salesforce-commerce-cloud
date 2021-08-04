@@ -29,7 +29,6 @@ function sendEmail(order) {
 
   const template = new Template('checkout/confirmation/confirmationEmail');
   const content = template.render(context).text;
-  confirmationEmail.setContent(content, 'text/html', 'UTF-8');
   confirmationEmail.send();
 
   order.custom.Adyen_CustomerEmail = null;
