@@ -53,7 +53,6 @@ var __LineItemHelper = {
     var vatPercentage = 0;
 
     if (__LineItemHelper.getVatAmount(lineItem).value !== 0) {
-      vatPercentage = lineItem.getTaxRate();
     }
 
     return vatPercentage;
