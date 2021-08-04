@@ -73,7 +73,7 @@ var Store = (_class = (_temp = /*#__PURE__*/function () {
       var _this$selectedPayment2;
 
       return ((_this$selectedPayment2 = this.selectedPayment) === null || _this$selectedPayment2 === void 0 ? void 0 : _this$selectedPayment2.stateData) || {
-        paymentMethod: {
+        : {
           type: this.selectedMethod
         }
       };
