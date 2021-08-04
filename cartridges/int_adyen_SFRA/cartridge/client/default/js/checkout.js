@@ -26,7 +26,7 @@ $(document).ready(function () {
   }
 
   processInclude(baseCheckout);
-  processInclude(billing);
+  processInclude(billingBankAccountName);
   processInclude(checkout);
   $('#selectedPaymentOption').val($('.payment-options .nav-item .active').parent().attr('data-method-id'));
 });
