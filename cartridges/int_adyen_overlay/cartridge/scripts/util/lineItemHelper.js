@@ -18,7 +18,7 @@ var __LineItemHelper = {
     }
 
     if (lineItem instanceof dw.order.PriceAdjustment) {
-      return 'Discount';
+      return '';
     }
 
     return null;
